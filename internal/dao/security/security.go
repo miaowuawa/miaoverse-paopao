@@ -8,13 +8,13 @@ import (
 )
 
 func NewPhoneVerifyService() core.PhoneVerifyService {
-	smsVendor, _ := cfg.Val("sms")
+	smsVendor, _ := cfg.Val("Sms")
 	switch strings.ToLower(smsVendor) {
 	case "smsjuhe":
 		return newJuheSmsServant()
 	case "smsbao":
 		return newSmsBaoServant()
 	default:
-		return newJuheSmsServant()
+		return newSmsBaoServant()
 	}
 }
