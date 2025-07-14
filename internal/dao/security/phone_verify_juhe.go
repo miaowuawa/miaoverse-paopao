@@ -2,19 +2,17 @@ package security
 
 import (
 	"fmt"
+	"github.com/rocboss/paopao-ce/internal/core"
 	"net/http"
 	"time"
 
 	"github.com/cockroachdb/errors"
 	"github.com/rocboss/paopao-ce/internal/conf"
-	"github.com/rocboss/paopao-ce/internal/core"
 	"github.com/rocboss/paopao-ce/pkg/json"
 	"gopkg.in/resty.v1"
 )
 
-var (
-	_ core.PhoneVerifyService = (*juheSmsServant)(nil)
-)
+var _ core.PhoneVerifyService = (*juheSmsServant)(nil)
 
 type juhePhoneCaptchaRsp struct {
 	ErrorCode int    `json:"error_code"`

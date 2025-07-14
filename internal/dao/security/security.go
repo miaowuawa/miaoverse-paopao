@@ -12,6 +12,8 @@ func NewPhoneVerifyService() core.PhoneVerifyService {
 	switch strings.ToLower(smsVendor) {
 	case "smsjuhe":
 		return newJuheSmsServant()
+	case "smsbao":
+		return newSmsBaoServant()
 	default:
 		return newJuheSmsServant()
 	}

@@ -65,6 +65,11 @@ SmsJuhe:
   Key:
   TplID:
   TplVal: "#code#=%s&#m#=%d"
+SmsBao:
+  Gateway: https://www.smsbao.com/
+  Username: xxx
+  Password: xxx
+  Sign: "【xxx】"
 Alipay: 
   AppID:
   InProduction: True

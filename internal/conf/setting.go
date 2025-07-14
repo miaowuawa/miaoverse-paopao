@@ -183,6 +183,13 @@ type smsJuheConf struct {
 	TplVal  string
 }
 
+type smsBaoConf struct {
+	Gateway  string
+	Username string
+	Password string
+	Sign     string
+}
+
 type tweetSearchConf struct {
 	MaxUpdateQPS int
 	MinWorker    int

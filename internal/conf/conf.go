@@ -46,6 +46,7 @@ var (
 	BigCacheIndexSetting    *bigCacheIndexConf
 	RedisCacheIndexSetting  *redisCacheIndexConf
 	SmsJuheSetting          *smsJuheConf
+	SmsBaoSetting           *smsBaoConf
 	AlipaySetting           *alipayConf
 	TweetSearchSetting      *tweetSearchConf
 	ZincSetting             *zincConf
@@ -59,6 +60,7 @@ var (
 	LocalOSSSetting         *localossConf
 	JWTSetting              *jwtConf
 	WebProfileSetting       *WebProfileConf
+	SmsType                 string
 )
 
 func setupSetting(suite []string, noDefault bool) error {
@@ -76,6 +78,7 @@ func setupSetting(suite []string, noDefault bool) error {
 
 	objects := map[string]any{
 		"App":               &AppSetting,
+		"SmsType":           &SmsType,
 		"Cache":             &CacheSetting,
 		"EventManager":      &EventManagerSetting,
 		"MetricManager":     &MetricManagerSetting,
@@ -96,6 +99,7 @@ func setupSetting(suite []string, noDefault bool) error {
 		"RedisCacheIndex":   &RedisCacheIndexSetting,
 		"Alipay":            &AlipaySetting,
 		"SmsJuhe":           &SmsJuheSetting,
+		"SmsBao":            &SmsBaoSetting,
 		"Pyroscope":         &PyroscopeSetting,
 		"Sentry":            &sentrySetting,
 		"Logger":            &loggerSetting,
