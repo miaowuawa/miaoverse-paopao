@@ -45,8 +45,8 @@ func (s *pubSrv) SendCaptcha(req *web.SendCaptchaReq) error {
 	ctx := context.Background()
 
 	// 验证图片验证码
-	if captcha, err := s.Redis.GetImgCaptcha(ctx, req.ImgCaptchaID); err != nil || string(captcha) != req.ImgCaptcha {
-		logrus.Debugf("get captcha err:%s expect:%s got:%s", err, captcha, req.ImgCaptcha)
+	if imgCaptcha, err := s.Redis.GetImgCaptcha(ctx, req.ImgCaptchaID); err != nil || imgCaptcha != req.ImgCaptcha {
+		logrus.Debugf("get imgCaptcha err:%s expect:%s got:%s", err, imgCaptcha, req.ImgCaptcha)
 		return web.ErrErrorCaptchaPassword
 	}
 	s.Redis.DelImgCaptcha(ctx, req.ImgCaptchaID)
@@ -66,16 +66,16 @@ func (s *pubSrv) SendCaptcha(req *web.SendCaptchaReq) error {
 }
 
 func (s *pubSrv) GetCaptcha() (*web.GetCaptchaResp, error) {
-	cap := captcha.New()
-	if err := cap.AddFontFromBytes(assets.ComicBytes); err != nil {
-		logrus.Errorf("cap.AddFontFromBytes err:%s", err)
+	capt := captcha.New()
+	if err := capt.AddFontFromBytes(assets.ComicBytes); err != nil {
+		logrus.Errorf("captcha.AddFontFromBytes err:%s", err)
 		return nil, xerror.ServerError
 	}
-	cap.SetSize(160, 64)
-	cap.SetDisturbance(captcha.MEDIUM)
-	cap.SetFrontColor(color.RGBA{0, 0, 0, 255})
-	cap.SetBkgColor(color.RGBA{218, 240, 228, 255})
-	img, password := cap.Create(6, captcha.NUM)
+	capt.SetSize(160, 64)
+	capt.SetDisturbance(captcha.MEDIUM)
+	capt.SetFrontColor(color.RGBA{0, 0, 0, 255})
+	capt.SetBkgColor(color.RGBA{218, 240, 228, 255})
+	img, password := capt.Create(6, captcha.NUM)
 	emptyBuff := bytes.NewBuffer(nil)
 	if err := png.Encode(emptyBuff, img); err != nil {
 		logrus.Errorf("png.Encode err:%s", err)
@@ -159,6 +159,7 @@ func (s *pubSrv) Login(req *web.LoginReq) (*web.LoginResp, error) {
 	return &web.LoginResp{
 		Token: token,
 	}, nil
+
 }
 
 func (s *pubSrv) Version() (*web.VersionResp, error) {

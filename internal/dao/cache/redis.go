@@ -7,12 +7,10 @@ package cache
 import (
 	"context"
 	"fmt"
-	"time"
-	"unsafe"
-
 	"github.com/Masterminds/semver/v3"
 	"github.com/redis/rueidis"
 	"github.com/rocboss/paopao-ce/internal/core"
+	"time"
 )
 
 var (
@@ -105,7 +103,10 @@ func (r *redisCache) SetImgCaptcha(ctx context.Context, id string, value string)
 
 func (r *redisCache) GetImgCaptcha(ctx context.Context, id string) (string, error) {
 	res, err := r.c.Do(ctx, r.c.B().Get().Key(_imgCaptchaKey+id).Build()).AsBytes()
-	return unsafe.String(&res[0], len(res)), err
+	if len(res) == 0 {
+		return "", err
+	}
+	return string(res), err
 }
 
 func (r *redisCache) DelImgCaptcha(ctx context.Context, id string) error {
