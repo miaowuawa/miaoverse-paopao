@@ -48,7 +48,7 @@ func (s *securitySrv) UsePhoneCaptcha(captcha *ms.Captcha) error {
 
 // SendPhoneCaptcha 发送短信验证码
 func (s *securitySrv) SendPhoneCaptcha(phone string) error {
-	expire := time.Duration(5)
+	expire := 5 * time.Minute
 
 	// 发送验证码
 	captcha := strconv.Itoa(s.rand.Intn(900000) + 100000)
