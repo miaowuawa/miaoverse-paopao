@@ -57,6 +57,7 @@ func (s *pubSrv) SendCaptcha(req *web.SendCaptchaReq) error {
 	}
 
 	if err := s.Ds.SendPhoneCaptcha(req.Phone); err != nil {
+		logrus.WithError(err).Errorf("SendPhoneCaptcha failed for phone: %s", req.Phone)
 		return xerror.ServerError
 	}
 	// 写入计数缓存
@@ -68,7 +69,7 @@ func (s *pubSrv) SendCaptcha(req *web.SendCaptchaReq) error {
 func (s *pubSrv) GetCaptcha() (*web.GetCaptchaResp, error) {
 	capt := captcha.New()
 	if err := capt.AddFontFromBytes(assets.ComicBytes); err != nil {
-		logrus.Errorf("captcha.AddFontFromBytes err:%s", err)
+		logrus.WithError(err).Errorf("captcha.AddFontFromBytes failed")
 		return nil, xerror.ServerError
 	}
 	capt.SetSize(160, 64)
@@ -78,7 +79,7 @@ func (s *pubSrv) GetCaptcha() (*web.GetCaptchaResp, error) {
 	img, password := capt.Create(6, captcha.NUM)
 	emptyBuff := bytes.NewBuffer(nil)
 	if err := png.Encode(emptyBuff, img); err != nil {
-		logrus.Errorf("png.Encode err:%s", err)
+		logrus.WithError(err).Errorf("png.Encode failed when generating captcha")
 		return nil, xerror.ServerError
 	}
 	key := utils.EncodeMD5(uuid.Must(uuid.NewV4()).String())
