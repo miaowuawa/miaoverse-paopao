@@ -10,9 +10,13 @@ const (
 )
 
 type TweetMetric struct {
-	PostId         int64
-	IncentiveScore int
-	DecayFactor    int
+	PostId          int64
+	IncentiveScore  int
+	DecayFactor     int
+	CommentCount    int32
+	UpvoteCount     int32
+	CollectionCount int32
+	ShareCount      int32
 }
 
 func (m *TweetMetric) RankScore(motivationFactor int) int64 {
