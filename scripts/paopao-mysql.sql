@@ -513,4 +513,6 @@ UNION
 SELECT user_id, follow_id he_uid, 10 AS style 
 FROM p_following WHERE is_del=0;
 
+ALTER TABLE `p_user_metric` ADD `experience` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `deleted_on`;
+
 SET FOREIGN_KEY_CHECKS = 1;

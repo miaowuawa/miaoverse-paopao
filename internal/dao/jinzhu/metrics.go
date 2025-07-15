@@ -25,6 +25,14 @@ type userMetricSrvA struct {
 	db *gorm.DB
 }
 
+func (s *userMetricSrvA) UpdateUserExperience(userId int64, Experience int) error {
+	metric := &dbr.UserMetric{UserId: userId}
+	s.db.Model(metric).Where("user_id=?", userId).First(metric)
+	metric.LatestTrendsOn = time.Now().Unix()
+	metric.Experience += Experience
+	return s.db.Save(metric).Error
+}
+
 func (s *tweetMetricSrvA) UpdateTweetMetric(metric *cs.TweetMetric) error {
 	return s.db.Transaction(func(tx *gorm.DB) error {
 		postMetric := &dbr.PostMetric{PostId: metric.PostId}
@@ -48,6 +56,9 @@ func (s *commentMetricSrvA) UpdateCommentMetric(metric *cs.CommentMetric) error 
 		commentMetric := &dbr.CommentMetric{CommentId: metric.CommentId}
 		tx.Model(commentMetric).Where("comment_id=?", metric.CommentId).First(commentMetric)
 		commentMetric.RankScore = metric.RankScore(commentMetric.MotivationFactor)
+		commentMetric.ReplyCount = metric.ReplyCount
+		commentMetric.ThumbsUpCount = metric.ThumbsUpCount
+		commentMetric.ThumbsDownCount = metric.ThumbsDownCount
 		return tx.Save(commentMetric).Error
 	})
 }
@@ -59,6 +70,23 @@ func (s *commentMetricSrvA) AddCommentMetric(commentId int64) (err error) {
 
 func (s *commentMetricSrvA) DeleteCommentMetric(commentId int64) (err error) {
 	return (&dbr.CommentMetric{CommentId: commentId}).Delete(s.db)
+}
+
+func (s *commentMetricSrvA) GetCommentMetric(commentId int64) (*cs.CommentMetric, error) {
+	metric := &dbr.CommentMetric{CommentId: commentId}
+	err := metric.Get(s.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return &cs.CommentMetric{
+		CommentId:       metric.CommentId,
+		IncentiveScore:  metric.IncentiveScore,
+		DecayFactor:     metric.DecayFactor,
+		ReplyCount:      metric.ReplyCount,
+		ThumbsUpCount:   metric.ThumbsUpCount,
+		ThumbsDownCount: metric.ThumbsDownCount,
+	}, nil
 }
 
 func (s *userMetricSrvA) UpdateUserMetric(userId int64, action uint8) error {
@@ -73,6 +101,7 @@ func (s *userMetricSrvA) UpdateUserMetric(userId int64, action uint8) error {
 			metric.TweetsCount--
 		}
 	}
+
 	return s.db.Save(metric).Error
 }
 
@@ -83,6 +112,21 @@ func (s *userMetricSrvA) AddUserMetric(userId int64) (err error) {
 
 func (s *userMetricSrvA) DeleteUserMetric(userId int64) (err error) {
 	return (&dbr.UserMetric{UserId: userId}).Delete(s.db)
+}
+
+func (s *userMetricSrvA) GetUserMetric(userId int64) (*cs.UserMetric, error) {
+	metric := &dbr.UserMetric{UserId: userId}
+	err := metric.Get(s.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return &cs.UserMetric{
+		UserId:         metric.UserId,
+		TweetsCount:    metric.TweetsCount,
+		LatestTrendsOn: metric.LatestTrendsOn,
+		Experience:     metric.Experience,
+	}, nil
 }
 
 func newTweetMetricServentA(db *gorm.DB) core.TweetMetricServantA {

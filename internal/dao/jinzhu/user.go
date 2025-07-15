@@ -23,9 +23,9 @@ type userManageSrv struct {
 	db  *gorm.DB
 	ums core.UserMetricServantA
 
-	_userProfileJoins    string
-	_userProfileWhere    string
-	_userProfileColoumns []string
+	_userProfileJoins   string
+	_userProfileWhere   string
+	_userProfileColumns []string
 }
 
 type userRelationSrv struct {
@@ -38,7 +38,7 @@ func newUserManageService(db *gorm.DB, ums core.UserMetricServantA) core.UserMan
 		ums:               ums,
 		_userProfileJoins: fmt.Sprintf("LEFT JOIN %s m ON %s.id=m.user_id", _userMetric_, _user_),
 		_userProfileWhere: fmt.Sprintf("%s.username=? AND %s.is_del=0", _user_, _user_),
-		_userProfileColoumns: []string{
+		_userProfileColumns: []string{
 			fmt.Sprintf("%s.id", _user_),
 			fmt.Sprintf("%s.username", _user_),
 			fmt.Sprintf("%s.nickname", _user_),
@@ -65,7 +65,13 @@ func (s *userManageSrv) GetUserByID(id int64) (*ms.User, error) {
 			ID: id,
 		},
 	}
-	return user.Get(s.db)
+	user, err := user.Get(s.db)
+	metric, err := s.ums.GetUserMetric(id)
+	if err != nil {
+		return nil, err
+	}
+	user.Experience = metric.Experience
+	return user, nil
 }
 
 func (s *userManageSrv) GetUserByUsername(username string) (*ms.User, error) {
@@ -78,7 +84,7 @@ func (s *userManageSrv) GetUserByUsername(username string) (*ms.User, error) {
 func (s *userManageSrv) UserProfileByName(username string) (res *cs.UserProfile, err error) {
 	err = s.db.Table(_user_).Joins(s._userProfileJoins).
 		Where(s._userProfileWhere, username).
-		Select(s._userProfileColoumns).
+		Select(s._userProfileColumns).
 		First(&res).Error
 	return
 }

@@ -26,6 +26,9 @@ type CommentMetric struct {
 	IncentiveScore   int
 	DecayFactor      int
 	MotivationFactor int
+	ReplyCount       int32
+	ThumbsUpCount    int32
+	ThumbsDownCount  int32
 }
 
 type UserMetric struct {
@@ -33,6 +36,7 @@ type UserMetric struct {
 	UserId         int64
 	TweetsCount    int
 	LatestTrendsOn int64
+	Experience     int
 }
 
 func (m *PostMetric) Create(db *gorm.DB) (*PostMetric, error) {
@@ -69,4 +73,12 @@ func (m *UserMetric) Delete(db *gorm.DB) error {
 		"deleted_on": time.Now().Unix(),
 		"is_del":     1,
 	}).Error
+}
+
+func (m *UserMetric) Get(db *gorm.DB) error {
+	return db.Model(m).Where("user_id = ? AND is_del = ?", m.UserId, 0).First(m).Error
+}
+
+func (m *CommentMetric) Get(db *gorm.DB) error {
+	return db.Model(m).Where("comment_id = ? AND is_del = ?", m.CommentId, 0).First(m).Error
 }
