@@ -43,7 +43,7 @@ func (s *tweetMetricSrvA) UpdateTweetMetric(metric *cs.TweetMetric) error {
 }
 
 func (s *tweetMetricSrvA) AddTweetMetric(postId int64) (err error) {
-	_, err = (&dbr.PostMetric{PostId: postId}).Create(s.db)
+	_, err = (&dbr.PostMetric{PostId: postId, DecayFactor: 100}).Create(s.db)
 	return
 }
 
@@ -64,7 +64,7 @@ func (s *commentMetricSrvA) UpdateCommentMetric(metric *cs.CommentMetric) error 
 }
 
 func (s *commentMetricSrvA) AddCommentMetric(commentId int64) (err error) {
-	_, err = (&dbr.CommentMetric{CommentId: commentId}).Create(s.db)
+	_, err = (&dbr.CommentMetric{CommentId: commentId, DecayFactor: 100}).Create(s.db)
 	return
 }
 

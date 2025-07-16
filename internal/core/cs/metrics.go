@@ -20,6 +20,9 @@ type TweetMetric struct {
 }
 
 func (m *TweetMetric) RankScore(motivationFactor int) int64 {
+	if m.DecayFactor == 0 {
+		return 0
+	}
 	return int64(m.IncentiveScore * motivationFactor / m.DecayFactor)
 }
 
