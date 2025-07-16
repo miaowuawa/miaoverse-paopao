@@ -616,8 +616,7 @@ const submitPost = () => {
       imageContents.value = [];
       videoContents.value = [];
       attachmentContents.value = [];
-      // 始终将可见性重置为"公开"
-      visitType.value = VisibilityEnum.PUBLIC;
+      visitType.value = defaultVisitType.value;
     })
     .catch((err) => {
       submitting.value = false;
@@ -638,8 +637,7 @@ onMounted(() => {
   } else {
     defaultVisitType.value = VisibilityEnum.PRIVATE;
   }
-  // 始终将可见性设置为"公开"
-  visitType.value = VisibilityEnum.PUBLIC;
+  visitType.value = defaultVisitType.value;
 });
 </script>
 
