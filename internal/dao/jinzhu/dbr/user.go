@@ -37,17 +37,19 @@ type UserFormated struct {
 	IsAdmin     bool   `json:"is_admin"`
 	IsFriend    bool   `json:"is_friend"`
 	IsFollowing bool   `json:"is_following"`
+	Experience  int    `json:"experience"`
 }
 
 func (u *User) Format() *UserFormated {
 	if u.Model != nil {
 		return &UserFormated{
-			ID:       u.ID,
-			Nickname: u.Nickname,
-			Username: u.Username,
-			Status:   u.Status,
-			Avatar:   u.Avatar,
-			IsAdmin:  u.IsAdmin,
+			ID:         u.ID,
+			Nickname:   u.Nickname,
+			Username:   u.Username,
+			Status:     u.Status,
+			Avatar:     u.Avatar,
+			IsAdmin:    u.IsAdmin,
+			Experience: u.Experience,
 		}
 	}
 

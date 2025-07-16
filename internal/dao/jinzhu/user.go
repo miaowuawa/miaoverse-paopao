@@ -82,7 +82,8 @@ func (s *userManageSrv) GetUserByUsername(username string) (*ms.User, error) {
 }
 
 func (s *userManageSrv) UserProfileByName(username string) (res *cs.UserProfile, err error) {
-	err = s.db.Table(_user_).Joins(s._userProfileJoins).
+	err = s.db.Table(_user_).Joins(s.
+		_userProfileJoins).
 		Where(s._userProfileWhere, username).
 		Select(s._userProfileColumns).
 		First(&res).Error
