@@ -36,7 +36,10 @@ type CommentMetric struct {
 }
 
 func (m *CommentMetric) RankScore(motivationFactor int) int64 {
-	return int64(m.IncentiveScore * motivationFactor / m.DecayFactor)
+    if m.DecayFactor == 0 {
+        return 0
+    }
+    return int64(m.IncentiveScore * motivationFactor / m.DecayFactor)
 }
 
 // UserMetric 用户指标结构体

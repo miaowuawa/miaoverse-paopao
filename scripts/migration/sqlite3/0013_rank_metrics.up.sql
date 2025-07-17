@@ -17,6 +17,8 @@ CREATE TABLE p_comment_metric (
 	"decay_factor" integer NOT NULL DEFAULT 0,
 	"motivation_factor" integer NOT NULL DEFAULT 0,
 	"reply_count" integer NOT NULL DEFAULT 0,
+	"thumbs_up_count" integer NOT NULL DEFAULT 0,
+	"thumbs_down_count" integer NOT NULL DEFAULT 0,
 	"is_del" integer NOT NULL DEFAULT 0,
 	"created_on" integer NOT NULL DEFAULT 0,
 	"modified_on" integer NOT NULL DEFAULT 0,
