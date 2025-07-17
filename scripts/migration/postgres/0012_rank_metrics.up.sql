@@ -18,6 +18,7 @@ CREATE TABLE p_comment_metric (
 	incentive_score INT NOT NULL DEFAULT 0,
 	decay_factor INT NOT NULL DEFAULT 0,
 	motivation_factor INT NOT NULL DEFAULT 0,
+	reply_count INT NOT NULL DEFAULT 0,
 	is_del SMALLINT NOT NULL DEFAULT 0,
 	created_on BIGINT NOT NULL DEFAULT 0,
 	modified_on BIGINT NOT NULL DEFAULT 0,

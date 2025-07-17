@@ -13,6 +13,7 @@ CREATE TABLE `p_comment_metric` (
 	`incentive_score` int unsigned NOT NULL DEFAULT 0,
 	`decay_factor` int unsigned NOT NULL DEFAULT 0,
 	`motivation_factor` int unsigned NOT NULL DEFAULT 0,
+	`reply_count` int unsigned NOT NULL DEFAULT 0,
 	`is_del` tinyint NOT NULL DEFAULT 0,
 	`created_on` bigint unsigned NOT NULL DEFAULT 0,
 	`modified_on` bigint unsigned NOT NULL DEFAULT 0,
