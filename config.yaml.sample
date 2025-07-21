@@ -5,6 +5,7 @@ App: # APP基础设置项
   DefaultContextTimeout: 60
   DefaultPageSize: 10
   MaxPageSize: 100
+  UserPhoneLimitation: 2
 Server: # 服务设置
   RunMode: debug
   HttpIp: 0.0.0.0

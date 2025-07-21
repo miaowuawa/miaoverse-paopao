@@ -238,9 +238,20 @@ func (s *coreSrv) GetCollections(req *web.GetCollectionsReq) (*web.GetCollection
 
 func (s *coreSrv) UserPhoneBind(req *web.UserPhoneBindReq) error {
 	// 手机重复性检查
+	maxBind := conf.AppSetting.UserPhoneLimitation
+
 	u, err := s.Ds.GetUserByPhone(req.Phone)
-	if err == nil && u.Model != nil && u.ID != 0 && u.ID != req.User.ID {
-		return web.ErrExistedUserPhone
+	if err == nil && len(u) > 0 {
+		// 检查是否有其他用户已绑定此手机号
+		for _, user := range u {
+			if user.ID != req.User.ID {
+				// 如果发现其他用户已绑定，且达到限制数量，则返回错误
+				if len(u) >= maxBind {
+					return web.ErrUserPhoneLimit
+				}
+				break // 只需找到一个非当前用户绑定记录即可
+			}
+		}
 	}
 
 	// 如果禁止phone verify 则允许通过任意验证码

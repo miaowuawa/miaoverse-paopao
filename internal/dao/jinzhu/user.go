@@ -90,11 +90,13 @@ func (s *userManageSrv) UserProfileByName(username string) (res *cs.UserProfile,
 	return
 }
 
-func (s *userManageSrv) GetUserByPhone(phone string) (*ms.User, error) {
+func (s *userManageSrv) GetUserByPhone(phone string) ([]*ms.User, error) {
 	user := &dbr.User{
 		Phone: phone,
 	}
-	return user.Get(s.db)
+	return user.List(s.db, &dbr.ConditionsT{
+		"phone = ?": phone,
+	}, 0, 0)
 }
 
 func (s *userManageSrv) GetUsersByIDs(ids []int64) ([]*ms.User, error) {

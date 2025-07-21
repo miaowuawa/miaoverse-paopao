@@ -26,7 +26,7 @@ var (
 	ErrTooManyLoginError       = xerror.NewError(20014, "登录失败次数过多，请稍后再试")
 	ErrGetPhoneCaptchaError    = xerror.NewError(20015, "短信验证码获取失败")
 	ErrTooManyPhoneCaptchaSend = xerror.NewError(20016, "短信验证码获取次数已达今日上限")
-	ErrExistedUserPhone        = xerror.NewError(20017, "该手机号已被绑定")
+	ErrUserPhoneLimit          = xerror.NewError(20017, "该手机号绑定超限")
 	ErrErrorPhoneCaptcha       = xerror.NewError(20018, "手机验证码不正确")
 	ErrMaxPhoneCaptchaUseTimes = xerror.NewError(20019, "手机验证码已达最大使用次数")
 	ErrNicknameLengthLimit     = xerror.NewError(20020, "昵称长度2~12")

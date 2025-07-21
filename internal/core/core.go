@@ -41,6 +41,9 @@ type DataService interface {
 	// 安全服务
 	SecurityService
 	AttachmentCheckService
+
+	// 实用性服务
+	//StickerService
 }
 
 // WebDataServantA Web数据服务集成(版本A)

@@ -106,6 +106,7 @@ type appConf struct {
 	DefaultContextTimeout time.Duration
 	DefaultPageSize       int
 	MaxPageSize           int
+	UserPhoneLimitation   int
 }
 
 type cacheConf struct {

@@ -13,7 +13,7 @@ import (
 type UserManageService interface {
 	GetUserByID(id int64) (*ms.User, error)
 	GetUserByUsername(username string) (*ms.User, error)
-	GetUserByPhone(phone string) (*ms.User, error)
+	GetUserByPhone(phone string) ([]*ms.User, error)
 	GetUsersByIDs(ids []int64) ([]*ms.User, error)
 	GetUsersByKeyword(keyword string) ([]*ms.User, error)
 	UserProfileByName(username string) (*cs.UserProfile, error)
